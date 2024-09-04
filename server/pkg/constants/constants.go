@@ -15,24 +15,24 @@ type CollectionNames string
 
 const (
 	CUSTOMER_COLLECTION CollectionNames = "customer"
-	ADMIN_COLLECTION CollectionNames = "admin"
+	ADMIN_COLLECTION    CollectionNames = "admin"
 )
 
 type UserType string
 
 const (
-	ADMIN_USER_TYPE 		  UserType = "ADMIN"
-	CUSTOMER_USER_TYPE        UserType = "CUSTOMER"
-	SUPERADMIN_USER_TYPE      UserType = "SUPERADMIN"
+	ADMIN_USER_TYPE      UserType = "ADMIN"
+	CUSTOMER_USER_TYPE   UserType = "CUSTOMER"
+	SUPERADMIN_USER_TYPE UserType = "SUPERADMIN"
 )
 
 const (
-	MIDDLEWARE_TOKEN = "token"
+	MIDDLEWARE_TOKEN   = "token"
 	MIDDLEWARE_USER_ID = "id"
 )
 
-func SendOkResponse(ctx *gin.Context, obj any){
+func SendOkResponse(ctx *gin.Context, obj any) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"main_data":obj,
+		"main_data": obj,
 	})
 }

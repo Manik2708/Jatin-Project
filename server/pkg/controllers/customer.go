@@ -9,14 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserController struct{
+type UserController struct {
 	svc services.CustomerServiceTemplate
 }
 
-func (uc *UserController) CreateCustomer(ctx *gin.Context){
+func (uc *UserController) CreateCustomer(ctx *gin.Context) {
 	var customer *schemas.Customer
 	err := ctx.ShouldBindJSON(&customer)
-	if err != nil{
+	if err != nil {
 		ct_errors.ThrowBadRequestError(
 			ctx,
 			ct_errors.BINDING_ERROR,
@@ -25,7 +25,7 @@ func (uc *UserController) CreateCustomer(ctx *gin.Context){
 		return
 	}
 	customer, err = uc.svc.CreateCustomer(customer)
-	if err !=nil{
+	if err != nil {
 		ct_errors.HandleServicesError(ctx, err)
 		return
 	}

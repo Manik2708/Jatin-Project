@@ -1,6 +1,6 @@
 package schemas
 
-type Admin struct{
+type Admin struct {
 	BaseUser
 	TriageAppointmentRequests   []Appointment `bson:"triage_appointment_requests,omitempty" json:"triage_appointment_requests,omitempty"`
 	PendingAppointmentRequests  []Appointment `bson:"pending_appointment_requests,omitempty" json:"pending_appointment_requests,omitempty"`
@@ -8,6 +8,6 @@ type Admin struct{
 	ClosedAppointmentRequests   []Appointment `bson:"closed_appointment_requests,omitempty" json:"closed_appointment_requests,omitempty"`
 }
 
-type AdminOrUser interface{
+type AdminOrUser interface {
 	*Customer | *Admin
 }

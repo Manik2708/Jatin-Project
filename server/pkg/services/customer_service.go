@@ -18,10 +18,10 @@ type CustomerServiceTemplate interface {
 
 type CustomerService struct {
 	ctx *gin.Context
-	ft factory.Factory
+	ft  factory.Factory
 }
 
-func (cs *CustomerService) CreateCustomer(ct *schemas.Customer) (*schemas.Customer, error){
+func (cs *CustomerService) CreateCustomer(ct *schemas.Customer) (*schemas.Customer, error) {
 	if ct.Password == nil {
 		return nil, errors.ErrPasswordNotEntered
 	}
@@ -34,18 +34,18 @@ func (cs *CustomerService) CreateCustomer(ct *schemas.Customer) (*schemas.Custom
 	}
 	col := cs.ft.GetCollection(constants.CUSTOMER_COLLECTION)
 	hp, err := bcrypt.GenerateFromPassword([]byte(*ct.Password), bcrypt.DefaultCost)
-	if err !=nil {
+	if err != nil {
 		return nil, err
 	}
 	str := string(hp)
 	ct.Password = &str
 	res, err := col.InsertOne(cs.ft.GetMongoContext(), ct)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	if obid, ok := res.InsertedID.(primitive.ObjectID); ok {
 		ct.Id = obid
-	}else{
+	} else {
 		return nil, errors.ErrInsertIdNotGenerated
 	}
 	ct.Password = nil
@@ -67,27 +67,26 @@ func isPasswordStrong(p string) error {
 		false,
 		false,
 	}
-    s := []rune(p)
-    if len(s) >= 7 {
-        validation[0] = true
-    }
+	s := []rune(p)
+	if len(s) >= 7 {
+		validation[0] = true
+	}
 	for _, char := range s {
-        switch {
-        case unicode.IsUpper(char):
-            validation[1] = true
-        case unicode.IsLower(char):
-            validation[2] = true
-        case unicode.IsNumber(char):
-            validation[3] = true
-        case unicode.IsPunct(char) || unicode.IsSymbol(char):
-            validation[4] = true
-        }
-    }
-	for i,vdt := range validation {
-		if !vdt{
+		switch {
+		case unicode.IsUpper(char):
+			validation[1] = true
+		case unicode.IsLower(char):
+			validation[2] = true
+		case unicode.IsNumber(char):
+			validation[3] = true
+		case unicode.IsPunct(char) || unicode.IsSymbol(char):
+			validation[4] = true
+		}
+	}
+	for i, vdt := range validation {
+		if !vdt {
 			return errs[i]
 		}
 	}
 	return nil
 }
-

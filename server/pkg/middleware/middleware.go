@@ -28,15 +28,15 @@ func (auth *AuthService) CustomerAuthMiddleware() gin.HandlerFunc {
 		}
 		parsedUserDetails := decodedDetails.Claims.(*AuthTokenPayload)
 		customer, err := database.FindById[schemas.Customer](
-			auth.s.GetMongoContext(), 
-			auth.s.GetDatabase(), 
-			constants.CUSTOMER_COLLECTION, 
+			auth.s.GetMongoContext(),
+			auth.s.GetDatabase(),
+			constants.CUSTOMER_COLLECTION,
 			parsedUserDetails.Id,
 		)
-		if err != nil{
+		if err != nil {
 			if err == mongo.ErrNoDocuments {
 				errors.ThrowBadRequestError(ctx, errors.USER_RELATED_TOKEN_NOT_FOUND, err)
-			}else{
+			} else {
 				errors.ThrowInternalServerError(ctx, errors.DEFAULT_INTERNAL_SERVER_ERROR, err)
 			}
 			return

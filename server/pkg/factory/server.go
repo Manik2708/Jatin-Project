@@ -10,31 +10,31 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Server struct{
+type Server struct {
 	dbc *context.Context
-	gn *gin.Engine
-	cl *mongo.Client
-	db *mongo.Database
+	gn  *gin.Engine
+	cl  *mongo.Client
+	db  *mongo.Database
 }
 
-func (s *Server) CreateGinClient() (*gin.Engine, error){
+func (s *Server) CreateGinClient() (*gin.Engine, error) {
 	s.gn = gin.New()
-	err:=s.gn.Run("0.0.0.0:8000")
-	if err !=nil{
+	err := s.gn.Run("0.0.0.0:8000")
+	if err != nil {
 		return nil, err
 	}
 	return s.gn, nil
 }
 
-func (s *Server) GetGinClient() (*gin.Engine){
+func (s *Server) GetGinClient() *gin.Engine {
 	return s.gn
 }
 
-func (s *Server) CreateDatabase() (*mongo.Database){
+func (s *Server) CreateDatabase() *mongo.Database {
 	return s.cl.Database("jatin")
 }
 
-func (s *Server) GetDatabase() (*mongo.Database){
+func (s *Server) GetDatabase() *mongo.Database {
 	return s.db
 }
 
@@ -47,7 +47,7 @@ func (s *Server) CreateIndexes(ctx context.Context) error {
 	indexUserName := mongo.IndexModel{
 		Keys: bson.D{
 			{
-				Key: "user_name",
+				Key:   "user_name",
 				Value: 1,
 			},
 		},
@@ -56,7 +56,7 @@ func (s *Server) CreateIndexes(ctx context.Context) error {
 	indexEmail := mongo.IndexModel{
 		Keys: bson.D{
 			{
-				Key: "email",
+				Key:   "email",
 				Value: 1,
 			},
 		},
