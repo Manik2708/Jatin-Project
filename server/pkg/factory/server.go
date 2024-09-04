@@ -11,6 +11,7 @@ import (
 )
 
 type Server struct{
+	dbc *context.Context
 	gn *gin.Engine
 	cl *mongo.Client
 	db *mongo.Database
@@ -30,8 +31,7 @@ func (s *Server) GetGinClient() (*gin.Engine){
 }
 
 func (s *Server) CreateDatabase() (*mongo.Database){
-	s.db = s.cl.Database("jatin")
-	return s.db
+	return s.cl.Database("jatin")
 }
 
 func (s *Server) GetDatabase() (*mongo.Database){
@@ -43,7 +43,7 @@ func (s *Server) GetCollection(name constants.CollectionNames) *mongo.Collection
 }
 
 func (s *Server) CreateIndexes(ctx context.Context) error {
-	cst := s.GetDatabase().Collection(string(constants.CUSTOMER_COLLECTION))
+	cst := s.GetCollection(constants.CUSTOMER_COLLECTION)
 	indexUserName := mongo.IndexModel{
 		Keys: bson.D{
 			{
@@ -69,4 +69,12 @@ func (s *Server) CreateIndexes(ctx context.Context) error {
 		return err
 	}
 	return nil
+}
+
+func (s *Server) GetMongoClient() *mongo.Client {
+	return s.cl
+}
+
+func (s *Server) GetMongoContext() context.Context {
+	return *s.dbc
 }

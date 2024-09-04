@@ -39,7 +39,7 @@ func (cs *CustomerService) CreateCustomer(ct *schemas.Customer) (*schemas.Custom
 	}
 	str := string(hp)
 	ct.Password = &str
-	res, err := col.InsertOne(cs.ctx, ct)
+	res, err := col.InsertOne(cs.ft.GetMongoContext(), ct)
 	if err != nil{
 		return nil, err
 	}

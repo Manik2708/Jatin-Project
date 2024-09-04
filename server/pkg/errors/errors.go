@@ -31,7 +31,9 @@ const (
 	BINDING_ERROR BadRequestErrorMesssage = "Unable to bind the request body with customer"
 	PASSWORD_TOO_LONG_ERROR BadRequestErrorMesssage = "Password is too long, please consider shortening it"
 	PASSWORD_IS_WEEK BadRequestErrorMesssage = "Weak Password"
-	INVALID_EMAIL = "Invalid Email-Address!!"
+	INVALID_EMAIL BadRequestErrorMesssage = "Invalid Email-Address!!"
+	INVALID_TOKEN BadRequestErrorMesssage = "There is some problem with token, please see the error!"
+	USER_RELATED_TOKEN_NOT_FOUND BadRequestErrorMesssage = "No user found related to this token found."
 )
 
 
