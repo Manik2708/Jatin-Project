@@ -25,7 +25,7 @@ func (s *Server) New() (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
-	return svr,nil
+	return svr, nil
 }
 
 func (s *Server) GetGinClient() *gin.Engine {
@@ -65,7 +65,7 @@ func (s *Server) CreateIndexes(ctx context.Context) error {
 	indexAppointmentStatus := mongo.IndexModel{
 		Keys: bson.D{
 			{
-				Key: "status",
+				Key:   "status",
 				Value: 1,
 			},
 		},
@@ -74,7 +74,7 @@ func (s *Server) CreateIndexes(ctx context.Context) error {
 	indexAppointmentRequestedBy := mongo.IndexModel{
 		Keys: bson.D{
 			{
-				Key: "requested_by",
+				Key:   "requested_by",
 				Value: 1,
 			},
 		},
@@ -83,7 +83,7 @@ func (s *Server) CreateIndexes(ctx context.Context) error {
 	indexAppointmentAcceptedBy := mongo.IndexModel{
 		Keys: bson.D{
 			{
-				Key: "accepted_by",
+				Key:   "accepted_by",
 				Value: 1,
 			},
 		},
@@ -92,7 +92,7 @@ func (s *Server) CreateIndexes(ctx context.Context) error {
 	indexCarAddressUserId := mongo.IndexModel{
 		Keys: bson.D{
 			{
-				Key: "user_id",
+				Key:   "user_id",
 				Value: 1,
 			},
 		},
@@ -105,7 +105,7 @@ func (s *Server) CreateIndexes(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	_, err = apt.Indexes().CreateMany(ctx,[]mongo.IndexModel{
+	_, err = apt.Indexes().CreateMany(ctx, []mongo.IndexModel{
 		indexAppointmentStatus,
 		indexAppointmentRequestedBy,
 		indexAppointmentAcceptedBy,

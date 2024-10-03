@@ -8,7 +8,7 @@ import (
 )
 
 type GlobalService struct {
-	ft  factory.Factory
+	ft    factory.Factory
 	cardh *database.DatabaseHelper[schemas.Car]
 }
 

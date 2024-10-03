@@ -60,27 +60,27 @@ func (cs *GlobalService) DeleteCar(id string, userId string) (*schemas.Car, erro
 	return cs.cardh.FindByIdAndDelete(id)
 }
 
-func (cs *GlobalService) GetCarByCarId(id string) (*schemas.Car, error){
+func (cs *GlobalService) GetCarByCarId(id string) (*schemas.Car, error) {
 	return cs.cardh.FindById(id)
 }
 
-func (cs *GlobalService) GetCarsByUserId(id string, limit int64, page int64) (*[]schemas.Car, error){
-	options := cs.cardh.GetPaginatedFindOptions(limit,page)
+func (cs *GlobalService) GetCarsByUserId(id string, limit int64, page int64) (*[]schemas.Car, error) {
+	options := cs.cardh.GetPaginatedFindOptions(limit, page)
 	var cars *[]schemas.Car
 	res, err := cs.ft.GetCollection(constants.CAR_COLLECTION).Find(cs.ft.GetMongoContext(), bson.D{
 		{
-			Key: "user_id",
+			Key:   "user_id",
 			Value: id,
 		},
 	},
-	options,
-)
+		options,
+	)
 	if err != nil {
-	return nil, err
+		return nil, err
 	}
 	err = res.All(cs.ft.GetMongoContext(), cars)
 	if err != nil {
 		return nil, err
 	}
-	return cars, nil	
+	return cars, nil
 }
