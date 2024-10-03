@@ -4,7 +4,6 @@ import (
 	"jatin/pkg/constants"
 	"jatin/pkg/database"
 	"jatin/pkg/errors"
-	"jatin/pkg/factory"
 	"jatin/pkg/schemas"
 
 	"github.com/gin-gonic/gin"
@@ -13,7 +12,7 @@ import (
 )
 
 type AuthService struct {
-	s factory.Factory
+	dh *database.DatabaseHelper[schemas.Customer]
 }
 
 func (auth *AuthService) CustomerAuthMiddleware() gin.HandlerFunc {
@@ -27,12 +26,7 @@ func (auth *AuthService) CustomerAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 		parsedUserDetails := decodedDetails.Claims.(*AuthTokenPayload)
-		customer, err := database.FindById[schemas.Customer](
-			auth.s.GetMongoContext(),
-			auth.s.GetDatabase(),
-			constants.CUSTOMER_COLLECTION,
-			parsedUserDetails.Id,
-		)
+		customer, err := auth.dh.FindById(parsedUserDetails.Id)
 		if err != nil {
 			if err == mongo.ErrNoDocuments {
 				errors.ThrowBadRequestError(ctx, errors.USER_RELATED_TOKEN_NOT_FOUND, err)
@@ -47,7 +41,7 @@ func (auth *AuthService) CustomerAuthMiddleware() gin.HandlerFunc {
 }
 
 type AuthTokenPayload struct {
-	Id   string `json:"Id"`
-	Type string `json:"Type"`
+	Id   string `json:"id"`
+	Type string `json:"type"`
 	jwt.RegisteredClaims
 }

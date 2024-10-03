@@ -10,6 +10,7 @@ import (
 
 type BadRequestErrorMesssage string
 type InternalServerErrorMessage string
+type ForbiddenErrorMessage string
 
 var (
 	ErrInsertIdNotGenerated       = errors.New("insert id is not generated from database. please try again")
@@ -20,6 +21,8 @@ var (
 	ErrPasswordNotHaveNumber      = errors.New("password doesn't have any number, it should contain atleast one")
 	ErrPasswordNotHaveSpecialChar = errors.New("password doesn't have any special character, it should contain atleast one")
 	ErrInvalidEmailAddress        = errors.New("invalid email-address, please provide valid email")
+	ErrInvalidUserType            = errors.New("invalid user type, it should be either CUSTOMER or ADMIN")
+	ErrUserNotAllowedToChange     = errors.New("the user id is not the owner of the entity, hence can't update or delete the entity")
 )
 
 const (
@@ -34,6 +37,7 @@ const (
 	INVALID_EMAIL                BadRequestErrorMesssage = "Invalid Email-Address!!"
 	INVALID_TOKEN                BadRequestErrorMesssage = "There is some problem with token, please see the error!"
 	USER_RELATED_TOKEN_NOT_FOUND BadRequestErrorMesssage = "No user found related to this token found."
+	INVALID_USER_TYPE            BadRequestErrorMesssage = "Invalid user type"
 )
 
 func ThrowBadRequestError(ctx *gin.Context, message BadRequestErrorMesssage, err error) {
@@ -72,6 +76,12 @@ func HandleServicesError(ctx *gin.Context, err error) {
 		ThrowBadRequestError(
 			ctx,
 			INVALID_EMAIL,
+			err,
+		)
+	case errors.Is(err, ErrInvalidUserType):
+		ThrowBadRequestError(
+			ctx,
+			INVALID_USER_TYPE,
 			err,
 		)
 		// --------------------------------------------------------------------------------------------------------------------------------------------------------------------

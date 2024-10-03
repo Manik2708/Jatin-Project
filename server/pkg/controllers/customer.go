@@ -24,7 +24,7 @@ func (uc *UserController) CreateCustomer(ctx *gin.Context) {
 		)
 		return
 	}
-	customer, err = uc.svc.CreateCustomer(customer)
+	customer, err = uc.svc.CreateCustomer(customer.UserName, customer.Name, customer.Email, customer.Phone, *customer.Password)
 	if err != nil {
 		ct_errors.HandleServicesError(ctx, err)
 		return

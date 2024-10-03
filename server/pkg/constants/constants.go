@@ -16,6 +16,9 @@ type CollectionNames string
 const (
 	CUSTOMER_COLLECTION CollectionNames = "customer"
 	ADMIN_COLLECTION    CollectionNames = "admin"
+	APPOINTMENTS_COLLECTION CollectionNames = "appointments"
+	CAR_COLLECTION CollectionNames = "car"
+	ADDRESS_COLLECTION CollectionNames = "address"
 )
 
 type UserType string
@@ -29,6 +32,15 @@ const (
 const (
 	MIDDLEWARE_TOKEN   = "token"
 	MIDDLEWARE_USER_ID = "id"
+)
+
+type AppointmentStatus string
+
+const (
+	PENDING_APPOINTMENT_STATUS = "PENDING"
+	ACCEPTED_APPOINTMENT_STATUS = "ACCEPTED"
+	REJECTED_APPOINTMENT_STATUS = "REJECTED"
+	CLOSED_APPOINTMENT_STATUS = "CLOSED"
 )
 
 func SendOkResponse(ctx *gin.Context, obj any) {
